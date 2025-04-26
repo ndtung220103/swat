@@ -1,16 +1,19 @@
+"""
+swat run.py
+"""
 
 from mininet.net import Mininet
 from mininet.cli import CLI
 from minicps.mcps import MiniCPS
-from mininet.node import RemoteController, OVSSwitch
 
-
-from topo import MyTopo
+from topo import SwatTopo
 
 import sys
 
 
-class MyCPS(MiniCPS):
+class SwatCPS(MiniCPS):
+
+    """Main container used to run the simulation."""
 
     def __init__(self, name, net):
 
@@ -19,25 +22,17 @@ class MyCPS(MiniCPS):
 
         net.start()
 
-        for h in net.hosts:
-            h.cmd('ifconfig %s-eth0 inet6 add 2001:db8::%s/64' % (h.name, str(hash(h.name))))
-
-
-        # Kiểm tra cấu hình IPv6
-        for h in net.hosts:
-            print(h.name, h.cmd('ifconfig'))
-
-        #net.pingAll()
+        net.pingAll()
 
         # start devices
-        plc1, hmi, attacker, s1 = self.net.get(
-            'plc1', 'hmi', 'attacker', 's1')
-
+        plc1, plc2, plc3, s1 = self.net.get(
+            'plc1', 'plc2', 'plc3', 's1')
 
         # SPHINX_SWAT_TUTORIAL RUN(
-        s1.cmd(sys.executable + ' -u ' + ' physical_process.py  &> logs/process.log &')
+        plc2.cmd(sys.executable + ' -u ' +' plc2.py &> logs/plc2.log &')
+        plc3.cmd(sys.executable + ' -u ' + ' plc3.py  &> logs/plc3.log &')
         plc1.cmd(sys.executable + ' -u ' + ' plc1.py  &> logs/plc1.log &')
-        #hmi.cmd(sys.executable + ' -u ' + ' hmi.py  &> logs/hmi.log &')
+        s1.cmd(sys.executable + ' -u ' + ' Raw_Water_Tank.py  &> logs/Raw_Water_Tank.log &')
         # SPHINX_SWAT_TUTORIAL RUN)
         CLI(self.net)
 
@@ -45,11 +40,9 @@ class MyCPS(MiniCPS):
 
 if __name__ == "__main__":
 
-    topo = MyTopo()
-    controller = RemoteController('pox', ip='127.0.0.1', port=6633)  # POX chạy ở cổng 6633
+    topo = SwatTopo()
+    net = Mininet(topo=topo)
 
-    net = Mininet(topo=topo, controller=controller)
-
-    swat_s1_cps = MyCPS(
-        name='project3',
+    swat_cps = SwatCPS(
+        name='swat',
         net=net)

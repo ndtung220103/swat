@@ -1,17 +1,19 @@
+"""
+swat topology
+"""
 
 from mininet.topo import Topo
-from mininet.node import RemoteController, OVSSwitch
-
 
 from utils import IP, MAC, NETMASK
 
 
-class MyTopo(Topo):
+class SwatTopo(Topo):
 
+    """SWaT 3 plcs + attacker + private dirs."""
 
     def build(self):
 
-        switch = self.addSwitch('s1', cls=OVSSwitch)
+        switch = self.addSwitch('s1')
 
         plc1 = self.addHost(
             'plc1',
@@ -19,11 +21,17 @@ class MyTopo(Topo):
             mac=MAC['plc1'])
         self.addLink(plc1, switch)
 
-        hmi = self.addHost(
-            'hmi',
-            ip=IP['hmi'] + NETMASK,
-            mac=MAC['hmi'])
-        self.addLink(hmi, switch)
+        plc2 = self.addHost(
+            'plc2',
+            ip=IP['plc2'] + NETMASK,
+            mac=MAC['plc2'])
+        self.addLink(plc2, switch)
+
+        plc3 = self.addHost(
+            'plc3',
+            ip=IP['plc3'] + NETMASK,
+            mac=MAC['plc3'])
+        self.addLink(plc3, switch)
 
         attacker = self.addHost(
             'attacker',
