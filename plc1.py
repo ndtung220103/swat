@@ -104,7 +104,7 @@ class SwatPLC1(PLC):
             time.sleep(PLC_PERIOD_SEC)
             count += 1
 
-        print('DEBUG swat plc1 shutdown')
+        print('DEBUG swat plc1 shutdown ')
 
 
 if __name__ == "__main__":
