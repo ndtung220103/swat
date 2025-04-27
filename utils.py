@@ -168,6 +168,8 @@ PLC2_PROTOCOL = {
 PLC3_ADDR = IP['plc3']
 PLC3_TAGS = (
     ('LIT301', 3, 'REAL'),
+    ('FIT301', 3, 'REAL'),
+    ('P301', 3, 'INT'),
     # no interlocks
 )
 PLC3_SERVER = {
@@ -180,10 +182,58 @@ PLC3_PROTOCOL = {
     'server': PLC3_SERVER
 }
 
+PLC4_ADDR = IP['plc4']
+PLC4_TAGS = (
+    ('LIT401', 4, 'REAL'),
+    ('FIT401', 4, 'REAL'),
+    ('P401', 4, 'INT'),
+    # no interlocks
+)
+PLC4_SERVER = {
+    'address': PLC4_ADDR,
+    'tags': PLC4_TAGS
+}
+PLC4_PROTOCOL = {
+    'name': 'enip',
+    'mode': 1,
+    'server': PLC4_SERVER
+}
+
+PLC5_ADDR = IP['plc5']
+PLC5_TAGS = (
+    ('P501', 5, 'INT'),
+    # no interlocks
+)
+PLC5_SERVER = {
+    'address': PLC5_ADDR,
+    'tags': PLC5_TAGS
+}
+PLC5_PROTOCOL = {
+    'name': 'enip',
+    'mode': 1,
+    'server': PLC5_SERVER
+}
+
+PLC6_ADDR = IP['plc6']
+PLC6_TAGS = (
+    ('LIT501', 5, 'REAL'),
+    ('LIT502', 5, 'REAL'),
+    ('P601', 6, 'INT'),
+    # no interlocks
+)
+PLC6_SERVER = {
+    'address': PLC6_ADDR,
+    'tags': PLC6_TAGS
+}
+PLC6_PROTOCOL = {
+    'name': 'enip',
+    'mode': 1,
+    'server': PLC6_SERVER
+}
 # state {{{1
 # SPHINX_SWAT_TUTORIAL STATE(
-PATH = 'swat_s1_db.sqlite'
-NAME = 'swat_s1'
+PATH = 'swat_db.sqlite'
+NAME = 'swat'
 
 STATE = {
     'name': NAME,
@@ -192,7 +242,7 @@ STATE = {
 # SPHINX_SWAT_TUTORIAL STATE)
 
 SCHEMA = """
-CREATE TABLE swat_s1 (
+CREATE TABLE swat (
     name              TEXT NOT NULL,
     pid               INTEGER NOT NULL,
     value             TEXT,
@@ -201,13 +251,27 @@ CREATE TABLE swat_s1 (
 """
 
 SCHEMA_INIT = """
-    INSERT INTO swat_s1 VALUES ('FIT101',   1, '2.55');
-    INSERT INTO swat_s1 VALUES ('MV101',    1, '0');
-    INSERT INTO swat_s1 VALUES ('LIT101',   1, '0.500');
-    INSERT INTO swat_s1 VALUES ('P101',     1, '1');
+    INSERT INTO swat VALUES ('FIT101',   1, '2.55');
+    INSERT INTO swat VALUES ('MV101',    1, '0');
+    INSERT INTO swat VALUES ('LIT101',   1, '0.500');
+    INSERT INTO swat VALUES ('P101',     1, '1');
 
-    INSERT INTO swat_s1 VALUES ('FIT201',   2, '2.45');
-    INSERT INTO swat_s1 VALUES ('MV201',    2, '0');
+    INSERT INTO swat VALUES ('FIT201',   2, '2.45');
+    INSERT INTO swat VALUES ('MV201',    2, '0');
 
-    INSERT INTO swat_s1 VALUES ('LIT301',   3, '0.500');
+    INSERT INTO swat VALUES ('LIT301',   3, '0.000');
+    INSERT INTO swat VALUES ('FIT301',   3, '2.40');
+    INSERT INTO swat VALUES ('P301',   3, '0');
+
+    INSERT INTO swat VALUES ('LIT401',   4, '0.000');
+    INSERT INTO swat VALUES ('FIT401',   4, '2.35');
+    INSERT INTO swat VALUES ('P401',   4, '0');
+
+    INSERT INTO swat VALUES ('P501',   5, '0');
+    INSERT INTO swat VALUES ('FIT501',  5, '2.10');
+    INSERT INTO swat VALUES ('FIT502',   5, '0.25');
+
+    INSERT INTO swat VALUES ('LIT501',   5, '0.000');
+    INSERT INTO swat VALUES ('LIT502',   5, '0.000');
+    INSERT INTO swat VALUES ('P602',   6, '0');
 """
