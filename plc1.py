@@ -64,6 +64,8 @@ class SwatPLC1(PLC):
                 self.send(MV101, 0, PLC1_ADDR)
                 lit301 = float(self.get(LIT301))
                 mv201 = int(self.get(MV201_2))
+                print('mv201 ',int(mv201))
+
                 if lit301 <= LIT_301_M['H'] and (mv201 == 1):
                     self.set(P101,1)
                     self.send(P101, 1, PLC1_ADDR)
