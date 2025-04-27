@@ -61,6 +61,7 @@ class RawWaterTank(Tank):
 
             # inflows volumes
             mv101 = self.get(MV101)
+            print('1mv01 ',int(mv101))
             if int(mv101) == 1:
                 self.set(FIT101, PUMP_FLOWRATE_IN)
                 inflow = PUMP_FLOWRATE_IN * PP_PERIOD_HOURS
@@ -71,6 +72,7 @@ class RawWaterTank(Tank):
 
             # outflows volumes
             p101 = self.get(P101)
+            print('p101 ',int(p101))
             if int(p101) == 1:
                 self.set(FIT201, PUMP_FLOWRATE_OUT)
                 outflow = PUMP_FLOWRATE_OUT * PP_PERIOD_HOURS
