@@ -257,7 +257,7 @@ SCHEMA_INIT = """
     INSERT INTO swat VALUES ('P101',     1, '1');
 
     INSERT INTO swat VALUES ('FIT201',   2, '2.45');
-    INSERT INTO swat VALUES ('MV201',    2, '0');
+    INSERT INTO swat VALUES ('MV201',    2, '1');
 
     INSERT INTO swat VALUES ('LIT301',   3, '0.000');
     INSERT INTO swat VALUES ('FIT301',   3, '2.40');

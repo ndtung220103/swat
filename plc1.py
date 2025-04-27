@@ -16,6 +16,7 @@ PLC3_ADDR = IP['plc3']
 FIT101 = ('FIT101', 1)
 MV101 = ('MV101', 1)
 LIT101 = ('LIT101', 1)
+LIT301 = ('LIT301', 3)
 P101 = ('P101', 1)
 # interlocks to be received from plc2 and plc3
 LIT301_1 = ('LIT301', 1)  # to be sent
@@ -61,6 +62,11 @@ class SwatPLC1(PLC):
                 print("INFO PLC1 - lit101 over H -> close mv101.")
                 self.set(MV101, 0)
                 self.send(MV101, 0, PLC1_ADDR)
+                lit301 = float(self.get(LIT301))
+                mv201 = int(self.get(MV201_2))
+                if lit301 <= LIT_301_M['H'] and (mv201 == 1):
+                    self.set(P101,1)
+                    self.send(P101, 1, PLC1_ADDR)
 
             elif lit101 <= LIT_101_M['LL']:
                 print("WARNING PLC1 - lit101 under LL: %.2f <= %.2f." % (
