@@ -22,6 +22,7 @@ import time
 
 # SPHINX_SWAT_TUTORIAL TAGS(
 MV101 = ('MV101', 1)
+MV201 = ('MV201', 2)
 P101 = ('P101', 1)
 LIT101 = ('LIT101', 1)
 LIT301 = ('LIT301', 3)
@@ -38,6 +39,7 @@ class RawWaterTank(Tank):
         # SPHINX_SWAT_TUTORIAL STATE INIT(
         self.set(MV101, 1)
         self.set(P101, 0)
+        self.set(MV201, 1)
         self.level = self.set(LIT101, 0.800)
         # SPHINX_SWAT_TUTORIAL STATE INIT)
 
@@ -61,7 +63,7 @@ class RawWaterTank(Tank):
 
             # inflows volumes
             mv101 = self.get(MV101)
-            print('1mv01 ',int(mv101))
+            print('mv01 ',int(mv101))
             if int(mv101) == 1:
                 self.set(FIT101, PUMP_FLOWRATE_IN)
                 inflow = PUMP_FLOWRATE_IN * PP_PERIOD_HOURS

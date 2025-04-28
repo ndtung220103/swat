@@ -10,35 +10,31 @@ principle (for the trajectories).
 
 from minicps.devices import Tank
 
-from utils import PUMP_FLOWRATE_IN, PUMP_FLOWRATE_OUT
+from utils import PUMP_FLOWRATE_IN_T52, PUMP_FLOWRATE_BACKWASH
 from utils import TANK_HEIGHT, TANK_SECTION, TANK_DIAMETER
-from utils import LIT_101_M, RWT_INIT_LEVEL
+from utils import LIT_502_M
 from utils import STATE, PP_PERIOD_SEC, PP_PERIOD_HOURS, PP_SAMPLES
-import pandas as pd
 
 import sys
 import time
 
 
 # SPHINX_SWAT_TUTORIAL TAGS(
-MV101 = ('MV101', 1)
-P101 = ('P101', 1)
-LIT101 = ('LIT101', 1)
-LIT301 = ('LIT301', 3)
-FIT101 = ('FIT101', 1)
-FIT201 = ('FIT201', 2)
+P501 = ('P501', 5)
+LIT502 = ('LIT502', 5)
+FIT502 = ('FIT502', 5)
+FIT602 = ('FIT602', 6)
+P602 = ('P602',6)
 # SPHINX_SWAT_TUTORIAL TAGS)
 
 
 # TODO: implement orefice drain with Bernoulli/Torricelli formula
-class RawWaterTank(Tank):
+class UFBACKWASHTank(Tank):
 
     def pre_loop(self):
 
         # SPHINX_SWAT_TUTORIAL STATE INIT(
-        self.set(MV101, 1)
-        self.set(P101, 0)
-        self.level = self.set(LIT101, 0.800)
+        self.level = self.set(LIT502, 0.000)
         # SPHINX_SWAT_TUTORIAL STATE INIT)
 
         # test underflow
@@ -49,8 +45,6 @@ class RawWaterTank(Tank):
     def main_loop(self):
 
         count = 0
-        columns = ['Time', 'MV101', 'P101', 'LIT101', 'LIT301', 'FIT101', 'FIT201']
-        df = pd.DataFrame(columns=columns)
         timestamp=0
         while(count <= PP_SAMPLES):
 
@@ -60,24 +54,24 @@ class RawWaterTank(Tank):
             water_volume = self.section * new_level
 
             # inflows volumes
-            mv101 = self.get(MV101)
-            if int(mv101) == 1:
-                self.set(FIT101, PUMP_FLOWRATE_IN)
-                inflow = PUMP_FLOWRATE_IN * PP_PERIOD_HOURS
+            p501 = self.get(P501)
+            if int(p501) == 1:
+                self.set(FIT502, PUMP_FLOWRATE_IN_T52)
+                inflow = PUMP_FLOWRATE_IN_T52 * PP_PERIOD_HOURS
                 # print("DEBUG RawWaterTank inflow: ", inflow)
                 water_volume += inflow
             else:
-                self.set(FIT101, 0.00)
+                self.set(FIT502, 0.00)
 
             # outflows volumes
-            p101 = self.get(P101)
-            if int(p101) == 1:
-                self.set(FIT201, PUMP_FLOWRATE_OUT)
-                outflow = PUMP_FLOWRATE_OUT * PP_PERIOD_HOURS
-                # print("DEBUG RawWaterTank outflow: ", outflow)
+            p602 = self.get(P602)
+            if int(p602) == 1:
+                self.set(FIT602, PUMP_FLOWRATE_BACKWASH)
+                outflow = PUMP_FLOWRATE_BACKWASH * PP_PERIOD_HOURS
+                print("DEBUG BackwashTank outflow: ", outflow)
                 water_volume -= outflow
             else:
-                self.set(FIT201, 0.00)
+                self.set(FIT602, 0.00)
 
             # compute new water_level
             new_level = water_volume / self.section
@@ -89,20 +83,18 @@ class RawWaterTank(Tank):
             # update internal and state water level
             print("DEBUG new_level: %.5f \t delta: %.5f" % (
                 new_level, new_level - self.level))
-            self.level = self.set(LIT101, new_level)
+            self.level = self.set(LIT502, new_level)
 
             # 988 sec starting from 0.500 m
-            if new_level >= LIT_101_M['HH']:
+            if new_level >= LIT_502_M['HH']:
                 print('DEBUG RawWaterTank above HH count: ', count)
                 break
 
             # 367 sec starting from 0.500 m
-            elif new_level <= LIT_101_M['LL']:
+            elif new_level <= LIT_502_M['LL']:
                 print('DEBUG RawWaterTank below LL count: ', count)
                 break 
-            new_data = pd.DataFrame(data = [[timestamp, self.get(MV101), self.get(P101), self.get(LIT101), self.get(LIT301), self.get(FIT101), self.get(FIT201)]], columns=columns)
-            df = pd.concat([df,new_data])
-            df.to_csv('logs/data.csv', index=False)
+            
             count += 1
             time.sleep(PP_PERIOD_SEC)
             timestamp+=PP_PERIOD_SEC
@@ -110,10 +102,10 @@ class RawWaterTank(Tank):
 
 if __name__ == '__main__':
 
-    rwt = RawWaterTank(
-        name='rwt',
+    rwt = UFBACKWASHTank(
+        name='ubt',
         state=STATE,
         protocol=None,
         section=TANK_SECTION,
-        level=RWT_INIT_LEVEL
+        level=0.000
     )

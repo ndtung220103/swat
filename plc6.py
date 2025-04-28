@@ -3,31 +3,24 @@ swat-s1 plc1.py
 """
 
 from minicps.devices import PLC
-from utils import PLC1_DATA, STATE, PLC1_PROTOCOL
+from utils import PLC6_DATA, STATE, PLC6_PROTOCOL
 from utils import PLC_PERIOD_SEC, PLC_SAMPLES
-from utils import IP, LIT_101_M, LIT_301_M, FIT_201_THRESH
+from utils import IP, LIT_502_M , LIT_501_M
 
 import time
 
-PLC1_ADDR = IP['plc1']
-PLC2_ADDR = IP['plc2']
-PLC3_ADDR = IP['plc3']
+PLC6_ADDR = IP['plc6']
+PLC5_ADDR = IP['plc5']
 
-FIT101 = ('FIT101', 1)
-MV101 = ('MV101', 1)
-LIT101 = ('LIT101', 1)
-P101 = ('P101', 1)
-# interlocks to be received from plc2 and plc3
-LIT301_1 = ('LIT301', 1)  # to be sent
-LIT301_3 = ('LIT301', 3)  # to be received
-FIT201_1 = ('FIT201', 1)
-FIT201_2 = ('FIT201', 2)
-MV201_1 = ('MV201', 1)
-MV201_2 = ('MV201', 2)
-# SPHINX_SWAT_TUTORIAL PLC1 LOGIC)
+
+LIT501 = ('LIT501', 5)
+LIT502 = ('LIT502', 5)
+P602 = ('P602', 6)
+P501 = ('P501', 5)
+
 
 # TODO: real value tag where to read/write flow sensor
-class SwatPLC1(PLC):
+class SwatPLC6(PLC):
 
     def pre_loop(self, sleep=0.1):
         print('DEBUG: swat-s1 plc1 enters pre_loop')
@@ -35,72 +28,51 @@ class SwatPLC1(PLC):
         time.sleep(sleep)
 
     def main_loop(self):
-        """plc1 main loop.
-
-            - reads sensors value
-            - drives actuators according to the control strategy
-            - updates its enip server
-        """
 
         print('DEBUG: swat-s1 plc1 enters main_loop.')
 
         count = 0
+        wash = 5
         while(count <= PLC_SAMPLES):
 
-            # lit101 [meters]
-            lit101 = float(self.get(LIT101))
-            print('DEBUG plc1 lit101: %.5f' % lit101)
-            self.send(LIT101, lit101, PLC1_ADDR)
+            lit501 = float(self.get(LIT501))
+            print('DEBUG plc6 lit501: %.5f' % lit501)
+            self.send(LIT501, lit501, PLC6_ADDR)
+            if lit501 >= LIT_501_M['HH']:
+                print("WARNING PLC6 - lit501 over HH: %.2f >= %.2f." % (
+                    lit501, LIT_501_M['HH']))
+            if lit501 >= LIT_501_M['H']:
+                print("INFO PLC6 - lit501 over H ")
+            elif lit501 <= LIT_501_M['LL']:
+                print("WARNING PLC6 - lit501 under LL: %.2f <= %.2f." % (
+                    lit501, LIT_501_M['LL']))
+            elif lit501 <= LIT_501_M['L']:
+                print("INFO PLC6 - lit501 under L")
 
-            if lit101 >= LIT_101_M['HH']:
-                print("WARNING PLC1 - lit101 over HH: %.2f >= %.2f." % (
-                    lit101, LIT_101_M['HH']))
 
-            if lit101 >= LIT_101_M['H']:
-                # CLOSE mv101
-                print("INFO PLC1 - lit101 over H -> close mv101.")
-                self.set(MV101, 0)
-                self.send(MV101, 0, PLC1_ADDR)
+            lit502 = float(self.get(LIT502))
+            print('DEBUG plc6 lit502: %.5f' % lit502)
+            self.send(LIT502, lit502, PLC6_ADDR)
+            if lit502 >= LIT_502_M['HH']:
+                print("WARNING PLC6 - lit502 over HH: %.2f >= %.2f." % (
+                    lit502, LIT_502_M['HH']))
+            if lit502 >= LIT_502_M['H']:
+                print("INFO PLC6 - lit502 over H ")
+            elif lit502 <= LIT_502_M['LL']:
+                print("WARNING PLC6 - lit502 under LL: %.2f <= %.2f." % (
+                    lit502, LIT_502_M['LL']))
+            elif lit502 <= LIT_502_M['L']:
+                print("INFO PLC6 - lit502 under L")
 
-            elif lit101 <= LIT_101_M['LL']:
-                print("WARNING PLC1 - lit101 under LL: %.2f <= %.2f." % (
-                    lit101, LIT_101_M['LL']))
-
-                # CLOSE p101
-                print("INFO PLC1 - close p101.")
-                self.set(P101, 0)
-                self.send(P101, 0, PLC1_ADDR)
-
-            elif lit101 <= LIT_101_M['L']:
-                # OPEN mv101
-                print("INFO PLC1 - lit101 under L -> open mv101.")
-                self.set(MV101, 1)
-                self.send(MV101, 1, PLC1_ADDR)
-
-            # TODO: use it when implement raw water tank
-            # read from PLC2 (constant value)
-            fit201 = float(self.receive(FIT201_2, PLC2_ADDR))
-            print("DEBUG PLC1 - receive fit201: %f" % fit201)
-            self.send(FIT201_1, fit201, PLC1_ADDR)
-
-            # # read from PLC3
-            lit301 = float(self.receive(LIT301_3, PLC3_ADDR))
-            print("DEBUG PLC1 - receive lit301: %f" % lit301)
-            self.send(LIT301_1, lit301, PLC1_ADDR)
-
-            # if fit201 <= FIT_201_THRESH or lit301 >= LIT_301_M['H']:
-            #     # CLOSE p101
-            #     self.set(P101, 0)
-            #     self.send(P101, 0, PLC1_ADDR)
-            #     print("INFO PLC1 - fit201 under FIT_201_THRESH " \
-            #           "or over LIT_301_M['H']: -> close p101.")
-
-            # elif lit301 <= LIT_301_M['L']:
-            #     # OPEN p101
-            #     self.set(P101, 1)
-            #     self.send(P101, 1, PLC1_ADDR)
-            #     print("INFO PLC1 - lit301 under LIT_301_M['L'] -> open p101.")
-
+            if count % 30 == 0 :
+                wash = 0
+            if wash < 4 and lit502 >= LIT_502_M['LL'] :
+                self.set(P602, 1)
+                self.send(P602, 1, PLC6_ADDR)
+            else:
+                self.set(P602, 0)
+                self.send(P602, 0, PLC6_ADDR)
+            wash += 1
             time.sleep(PLC_PERIOD_SEC)
             count += 1
 
@@ -110,9 +82,9 @@ class SwatPLC1(PLC):
 if __name__ == "__main__":
 
     # notice that memory init is different form disk init
-    plc1 = SwatPLC1(
-        name='plc1',
+    plc6 = SwatPLC6(
+        name='plc6',
         state=STATE,
-        protocol=PLC1_PROTOCOL,
-        memory=PLC1_DATA,
-        disk=PLC1_DATA)
+        protocol=PLC6_PROTOCOL,
+        memory=PLC6_DATA,
+        disk=PLC6_DATA)

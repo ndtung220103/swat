@@ -62,13 +62,7 @@ class SwatPLC1(PLC):
                 print("INFO PLC1 - lit101 over H -> close mv101.")
                 self.set(MV101, 0)
                 self.send(MV101, 0, PLC1_ADDR)
-                lit301 = float(self.get(LIT301))
-                mv201 = int(self.get(MV201_2))
-                print('mv201 ',int(mv201))
-
-                if lit301 <= LIT_301_M['H'] and (mv201 == 1):
-                    self.set(P101,1)
-                    self.send(P101, 1, PLC1_ADDR)
+                
 
             elif lit101 <= LIT_101_M['LL']:
                 print("WARNING PLC1 - lit101 under LL: %.2f <= %.2f." % (
@@ -96,18 +90,19 @@ class SwatPLC1(PLC):
             print("DEBUG PLC1 - receive lit301: %f" % lit301)
             self.send(LIT301_1, lit301, PLC1_ADDR)
 
-            # if fit201 <= FIT_201_THRESH or lit301 >= LIT_301_M['H']:
-            #     # CLOSE p101
-            #     self.set(P101, 0)
-            #     self.send(P101, 0, PLC1_ADDR)
-            #     print("INFO PLC1 - fit201 under FIT_201_THRESH " \
-            #           "or over LIT_301_M['H']: -> close p101.")
+            mv201 = int(self.receive(MV201_2, PLC2_ADDR))
+            if  lit301 >= LIT_301_M['H'] or mv201 == 0:
+                # CLOSE p101
+                self.set(P101, 0)
+                self.send(P101, 0, PLC1_ADDR)
+                print("INFO PLC1 - fit201 under FIT_201_THRESH " \
+                      "or over LIT_301_M['H']: -> close p101.")
 
-            # elif lit301 <= LIT_301_M['L']:
-            #     # OPEN p101
-            #     self.set(P101, 1)
-            #     self.send(P101, 1, PLC1_ADDR)
-            #     print("INFO PLC1 - lit301 under LIT_301_M['L'] -> open p101.")
+            elif lit301 <= LIT_301_M['L'] and mv201 == 1 and lit101 >= LIT_101_M['LL']:
+                # OPEN p101
+                self.set(P101, 1)
+                self.send(P101, 1, PLC1_ADDR)
+                print("INFO PLC1 - lit301 under LIT_301_M['L'] -> open p101.")
 
             time.sleep(PLC_PERIOD_SEC)
             count += 1

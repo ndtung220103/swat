@@ -9,7 +9,7 @@ from utils import IP, MAC, NETMASK
 
 class SwatTopo(Topo):
 
-    """SWaT 3 plcs + attacker + private dirs."""
+    """SWaT 6 plcs + attacker + private dirs."""
 
     def build(self):
 
@@ -32,6 +32,24 @@ class SwatTopo(Topo):
             ip=IP['plc3'] + NETMASK,
             mac=MAC['plc3'])
         self.addLink(plc3, switch)
+
+        plc4 = self.addHost(
+            'plc4',
+            ip=IP['plc4'] + NETMASK,
+            mac=MAC['plc4'])
+        self.addLink(plc4, switch)
+
+        plc5 = self.addHost(
+            'plc5',
+            ip=IP['plc5'] + NETMASK,
+            mac=MAC['plc5'])
+        self.addLink(plc5, switch)
+
+        plc6 = self.addHost(
+            'plc6',
+            ip=IP['plc6'] + NETMASK,
+            mac=MAC['plc6'])
+        self.addLink(plc6, switch)
 
         attacker = self.addHost(
             'attacker',

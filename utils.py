@@ -30,7 +30,11 @@ TANK_DIAMETER = 1.38           # m
 TANK_SECTION = 1.5             # m^2
 PUMP_FLOWRATE_IN = 2.55        # m^3/h spec say btw 2.2 and 2.4
 PUMP_FLOWRATE_OUT = 2.45       # m^3/h spec say btw 2.2 and 2.4
-
+PUMP_FLOWRATE_OUT_T3 = 2.40
+PUMP_FLOWRATE_OUT_T4 = 2.35
+PUMP_FLOWRATE_IN_T51 = 2.10
+PUMP_FLOWRATE_IN_T52 = 0.25
+PUMP_FLOWRATE_BACKWASH = 2.00
 # periods in msec
 # R/W = Read or Write
 T_PLC_R = 100E-3
@@ -69,12 +73,48 @@ LIT_301_M = {  # ultrafiltration tank m
     'H': 1.000,
     'HH': 1.200,
 }
+LIT_401_MM = {  # ultrafiltration tank mm
+    'LL': 250.0,
+    'L': 800.0,
+    'H': 1000.0,
+    'HH': 1200.0,
+}
+LIT_401_M = {  # ultrafiltration tank m
+    'LL': 0.250,
+    'L': 0.800,
+    'H': 1.000,
+    'HH': 1.200,
+}
+LIT_501_MM = {  # ultrafiltration tank mm
+    'LL': 250.0,
+    'L': 800.0,
+    'H': 3000.0,
+    'HH': 4200.0,
+}
+LIT_501_M = {  # ultrafiltration tank m
+    'LL': 0.250,
+    'L': 0.800,
+    'H': 3.000,
+    'HH': 4.200,
+}
 
+LIT_502_MM = {  # ultrafiltration tank mm
+    'LL': 250.0,
+    'L': 800.0,
+    'H': 1000.0,
+    'HH': 1200.0,
+}
+LIT_502_M = {  # ultrafiltration tank m
+    'LL': 0.250,
+    'L': 0.800,
+    'H': 1.000,
+    'HH': 1.200,
+}
 TANK_HEIGHT = 1.600  # m
 
 PLC_PERIOD_SEC = 0.40  # plc update rate in seconds
 PLC_PERIOD_HOURS = PLC_PERIOD_SEC / 3600.0
-PLC_SAMPLES = 1000
+PLC_SAMPLES = 5000
 
 PP_RESCALING_HOURS = 100
 PP_PERIOD_SEC = 0.20  # physical process update rate in seconds
@@ -122,6 +162,16 @@ PLC2_DATA = {
 }
 # TODO
 PLC3_DATA = {
+    'TODO': 'TODO',
+}
+
+PLC4_DATA = {
+    'TODO': 'TODO',
+}
+PLC5_DATA = {
+    'TODO': 'TODO',
+}
+PLC6_DATA = {
     'TODO': 'TODO',
 }
 
@@ -274,4 +324,6 @@ SCHEMA_INIT = """
     INSERT INTO swat VALUES ('LIT501',   5, '0.000');
     INSERT INTO swat VALUES ('LIT502',   5, '0.000');
     INSERT INTO swat VALUES ('P602',   6, '0');
+    INSERT INTO swat VALUES ('FIT602',   6, '2.00');
+
 """
