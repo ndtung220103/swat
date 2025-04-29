@@ -26,7 +26,7 @@ class SwatCPS(MiniCPS):
 
         # start devices
         plc1, plc2, plc3, plc4, plc5, plc6, s1 = self.net.get(
-            'plc1', 'plc2', 'plc3', 's1')
+            'plc1', 'plc2', 'plc3', 'plc4', 'plc5', 'plc6', 's1')
 
         # SPHINX_SWAT_TUTORIAL RUN(
         plc2.cmd(sys.executable + ' -u ' + ' plc2.py  &> logs/plc2.log &')

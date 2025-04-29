@@ -84,14 +84,14 @@ class RAWPERMEATETank(Tank):
             self.level = self.set(LIT501, new_level)
 
             # 988 sec starting from 0.500 m
-            if new_level >= LIT_501_M['HH']:
-                print('DEBUG RawWaterTank above HH count: ', count)
-                break
+            # if new_level >= LIT_501_M['HH']:
+            #     print('DEBUG RawWaterTank above HH count: ', count)
+            #     break
 
-            # 367 sec starting from 0.500 m
-            elif new_level <= LIT_501_M['LL']:
-                print('DEBUG RawWaterTank below LL count: ', count)
-                break 
+            # # 367 sec starting from 0.500 m
+            # elif new_level <= LIT_501_M['LL']:
+            #     print('DEBUG RawWaterTank below LL count: ', count)
+            #     break 
             
             count += 1
             time.sleep(PP_PERIOD_SEC)

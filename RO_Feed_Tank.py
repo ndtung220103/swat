@@ -89,14 +89,14 @@ class ROFEEDTank(Tank):
             self.level = self.set(LIT401, new_level)
 
             # 
-            if new_level >= LIT_401_M['HH']:
-                print('DEBUG RawWaterTank above HH count: ', count)
-                break
+            # if new_level >= LIT_401_M['HH']:
+            #     print('DEBUG RawWaterTank above HH count: ', count)
+            #     break
 
-            # 
-            elif new_level <= LIT_401_M['LL']:
-                print('DEBUG RawWaterTank below LL count: ', count)
-                break 
+            # # 
+            # elif new_level <= LIT_401_M['LL']:
+            #     print('DEBUG RawWaterTank below LL count: ', count)
+            #     break 
             count += 1
             time.sleep(PP_PERIOD_SEC)
             timestamp+=PP_PERIOD_SEC
