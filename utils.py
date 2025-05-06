@@ -268,7 +268,7 @@ PLC6_ADDR = IP['plc6']
 PLC6_TAGS = (
     ('LIT501', 5, 'REAL'),
     ('LIT502', 5, 'REAL'),
-    ('P601', 6, 'INT'),
+    ('P602', 6, 'INT'),
     # no interlocks
 )
 PLC6_SERVER = {

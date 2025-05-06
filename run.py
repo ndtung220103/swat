@@ -5,6 +5,7 @@ swat run.py
 from mininet.net import Mininet
 from mininet.cli import CLI
 from minicps.mcps import MiniCPS
+from mininet.node import RemoteController, OVSSwitch
 
 from topo import SwatTopo
 
@@ -49,7 +50,8 @@ class SwatCPS(MiniCPS):
 if __name__ == "__main__":
 
     topo = SwatTopo()
-    net = Mininet(topo=topo)
+    controller = RemoteController('pox', ip='127.0.0.1', port=6633)
+    net = Mininet(topo=topo, controller=controller)
 
     swat_cps = SwatCPS(
         name='swat',
