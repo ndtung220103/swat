@@ -52,6 +52,12 @@ class SwatTopo(Topo):
             mac=MAC['plc6'])
         self.addLink(plc6, switch)
 
+        hmi = self.addHost(
+            'hmi',
+            ip=IP['hmi'] + NETMASK,
+            mac=MAC['hmi'])
+        self.addLink(hmi, switch)
+
         attacker = self.addHost(
             'attacker',
             ip=IP['attacker'] + NETMASK,

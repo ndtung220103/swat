@@ -135,6 +135,7 @@ IP = {
     'plc4': '192.168.1.40',
     'plc5': '192.168.1.50',
     'plc6': '192.168.1.60',
+    'hmi': '192.168.1.70',
     'attacker': '192.168.1.77',
 }
 
@@ -147,12 +148,17 @@ MAC = {
     'plc4': '00:1D:9C:C7:FA:2C',
     'plc5': '00:1D:9C:C8:BC:2F',
     'plc6': '00:1D:9C:C7:FA:2D',
+    'hmi': '00:1D:9C:C8:BC:70',
     'attacker': 'AA:AA:AA:AA:AA:AA',
 }
 
 
 # others
 # TODO
+HMI_DATA = {
+    'TODO': 'TODO',
+}
+
 PLC1_DATA = {
     'TODO': 'TODO',
 }
@@ -177,6 +183,13 @@ PLC6_DATA = {
 
 
 # SPHINX_SWAT_TUTORIAL PLC1 UTILS(
+HMI_ADDR = IP['hmi']
+HMI_PROTOCOL = {
+    'name': 'enip',
+    'mode': 0,
+    'server': None
+}
+
 PLC1_ADDR = IP['plc1']
 PLC1_TAGS = (
     ('FIT101', 1, 'REAL'),
