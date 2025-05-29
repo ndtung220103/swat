@@ -18,7 +18,7 @@ LIT501 =    ('LIT501',   5)
 LIT502 =    ('LIT502',   5)
 P602 =     ('P602',   6)
 
-CONTROLLER_IP = '127.0.0.1'  # địa chỉ của POX controller (đổi tùy VM/network)
+CONTROLLER_IP = '10.0.3.10'
 CONTROLLER_PORT = 9999
 
 class MyHMI(HMI):

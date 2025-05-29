@@ -10,6 +10,7 @@ from mininet.node import RemoteController, OVSSwitch
 from topo import SwatTopo
 
 import sys
+import os
 
 
 class SwatCPS(MiniCPS):
@@ -28,6 +29,18 @@ class SwatCPS(MiniCPS):
         # start devices
         plc1, plc2, plc3, plc4, plc5, plc6, s1, hmi = self.net.get(
             'plc1', 'plc2', 'plc3', 'plc4', 'plc5', 'plc6', 's1', 'hmi')
+        
+        os.system("ip link show veth0 || ip link add veth0 type veth peer name veth1")
+
+        # 2. Kích hoạt veth0
+        os.system("ip link set veth0 up")
+
+        # 3. Gán IP cho veth0 trên hệ điều hành VM (phía ngoài Mininet)
+        os.system("ip addr add 10.0.3.10/24 dev veth0 || true")
+
+        # 4. Gắn veth1 vào node hmi trong Mininet
+        hmi.attach('veth1')
+        hmi.cmd('ifconfig veth1 10.0.3.20/24 up')
 
         # SPHINX_SWAT_TUTORIAL RUN(
         plc2.cmd(sys.executable + ' -u ' + ' plc2.py  &> logs/plc2.log &')
