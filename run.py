@@ -6,7 +6,7 @@ from mininet.net import Mininet
 from mininet.cli import CLI
 from minicps.mcps import MiniCPS
 from mininet.node import RemoteController, OVSSwitch
-
+from mininet.link import Intf
 from topo import SwatTopo
 
 import sys
@@ -39,7 +39,7 @@ class SwatCPS(MiniCPS):
         os.system("ip addr add 10.0.3.10/24 dev veth0 || true")
 
         # 4. Gắn veth1 vào node hmi trong Mininet
-        hmi.attach('veth1')
+        Intf('veth1', node=hmi)
         hmi.cmd('ifconfig veth1 10.0.3.20/24 up')
 
         # SPHINX_SWAT_TUTORIAL RUN(
