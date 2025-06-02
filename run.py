@@ -54,6 +54,7 @@ class SwatCPS(MiniCPS):
         s1.cmd(sys.executable + ' -u ' + ' RO_Feed_Tank.py  &> logs/RO_Feed_Tank.log &')
         s1.cmd(sys.executable + ' -u ' + ' Raw_Permeate_Tank.py  &> logs/Raw_Permeate_Tank.log &')
         s1.cmd(sys.executable + ' -u ' + ' UF_backwash_Tank.py  &> logs/UF_backwash_Tank.log &')
+        hmi.cmd(sys.executable + ' -u ' + ' hmi.py  &> logs/hmi.log &')
 
         # SPHINX_SWAT_TUTORIAL RUN)
         CLI(self.net)
