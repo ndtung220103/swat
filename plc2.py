@@ -1,6 +1,6 @@
 
 """
-swat-s1 plc2
+swat plc2
 """
 
 from minicps.devices import PLC
@@ -21,7 +21,7 @@ LIT301 = ('LIT301', 3)
 class SwatPLC2(PLC):
 
     def pre_loop(self, sleep=0.1):
-        print('DEBUG: swat-s1 plc2 enters pre_loop')
+        print('DEBUG: swat plc2 enters pre_loop')
 
         time.sleep(sleep)
 
@@ -32,7 +32,7 @@ class SwatPLC2(PLC):
             - update interal enip server
         """
 
-        print('DEBUG: swat-s1 plc2 enters main_loop.')
+        print('DEBUG: swat plc2 enters main_loop.')
 
         count = 0
         while(count <= PLC_SAMPLES):

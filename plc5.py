@@ -1,5 +1,5 @@
 """
-swat-s1 plc1.py
+swat plc5.py
 """
 
 from minicps.devices import PLC
@@ -31,7 +31,7 @@ class SwatPLC5(PLC):
             - updates its enip server
         """
 
-        print('DEBUG: swat-s1 plc1 enters main_loop.')
+        print('DEBUG: swat plc5 enters main_loop.')
 
         count = 0
         while(count <= PLC_SAMPLES):

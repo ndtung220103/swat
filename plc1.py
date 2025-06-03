@@ -1,5 +1,5 @@
 """
-swat-s1 plc1.py
+swat plc1.py
 """
 
 from minicps.devices import PLC
@@ -25,13 +25,13 @@ FIT201_1 = ('FIT201', 1)
 FIT201_2 = ('FIT201', 2)
 MV201_1 = ('MV201', 1)
 MV201_2 = ('MV201', 2)
-# SPHINX_SWAT_TUTORIAL PLC1 LOGIC)
+#
 
 # TODO: real value tag where to read/write flow sensor
 class SwatPLC1(PLC):
 
     def pre_loop(self, sleep=0.1):
-        print('DEBUG: swat-s1 plc1 enters pre_loop')
+        print('DEBUG: swat plc1 enters pre_loop')
 
         time.sleep(sleep)
 
@@ -43,7 +43,7 @@ class SwatPLC1(PLC):
             - updates its enip server
         """
 
-        print('DEBUG: swat-s1 plc1 enters main_loop.')
+        print('DEBUG: swat plc1 enters main_loop.')
 
         count = 0
         while(count <= PLC_SAMPLES):
@@ -79,7 +79,6 @@ class SwatPLC1(PLC):
                 self.set(MV101, 1)
                 self.send(MV101, 1, PLC1_ADDR)
 
-            # TODO: use it when implement raw water tank
             # read from PLC2 (constant value)
             fit201 = float(self.receive(FIT201_2, PLC2_ADDR))
             print("DEBUG PLC1 - receive fit201: %f" % fit201)

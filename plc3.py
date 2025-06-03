@@ -1,6 +1,6 @@
 
 """
-swat-s1 plc3
+swat plc3
 """
 
 from minicps.devices import PLC
@@ -21,7 +21,7 @@ P301 = ('P301', 3)
 class SwatPLC3(PLC):
 
     def pre_loop(self, sleep=0.1):
-        print('DEBUG: swat-s1 plc3 enters pre_loop')
+        print('DEBUG: swat plc3 enters pre_loop')
 
         time.sleep(sleep)
 
@@ -32,7 +32,7 @@ class SwatPLC3(PLC):
             - update internal enip server
         """
 
-        print('DEBUG: swat-s1 plc3 enters main_loop.')
+        print('DEBUG: swat plc3 enters main_loop.')
 
         count = 0
         while(count <= PLC_SAMPLES):
@@ -65,7 +65,7 @@ class SwatPLC3(PLC):
 
             # # read from PLC4
             lit401 = float(self.receive(LIT401, PLC4_ADDR))
-            print("DEBUG PLC3 - receive lit401: %f" % lit301)
+            print("DEBUG PLC3 - receive lit401: %f" % lit401)
 
             if  lit401 >= LIT_401_M['H'] :
                 # CLOSE p101

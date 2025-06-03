@@ -1,5 +1,5 @@
 """
-swat-s1 plc1.py
+swat plc6.py
 """
 
 from minicps.devices import PLC
@@ -23,15 +23,15 @@ P501 = ('P501', 5)
 class SwatPLC6(PLC):
 
     def pre_loop(self, sleep=0.1):
-        print('DEBUG: swat-s1 plc1 enters pre_loop')
+        print('DEBUG: swat plc6 enters pre_loop')
 
         time.sleep(sleep)
 
     def main_loop(self):
 
-        print('DEBUG: swat-s1 plc1 enters main_loop.')
+        print('DEBUG: swat plc6 enters main_loop.')
 
-        count = 0
+        count = 1
         wash = 5
         while(count <= PLC_SAMPLES):
 
@@ -64,19 +64,20 @@ class SwatPLC6(PLC):
             elif lit502 <= LIT_502_M['L']:
                 print("INFO PLC6 - lit502 under L")
 
-            if count % 30 == 0 :
+            if count % 45 == 0 :
                 wash = 0
-            if wash < 4 and lit502 >= LIT_502_M['LL'] :
+            if wash < 3 and lit502 >= LIT_502_M['LL'] :
                 self.set(P602, 1)
                 self.send(P602, 1, PLC6_ADDR)
             else:
                 self.set(P602, 0)
                 self.send(P602, 0, PLC6_ADDR)
             wash += 1
-            time.sleep(PLC_PERIOD_SEC)
             count += 1
+            time.sleep(PLC_PERIOD_SEC)
+            
 
-        print('DEBUG swat plc1 shutdown')
+        print('DEBUG swat plc6 shutdown')
 
 
 if __name__ == "__main__":
