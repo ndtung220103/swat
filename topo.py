@@ -15,18 +15,20 @@ class SwatTopo(Topo):
     def build(self):
 
         switch = self.addSwitch('s1', cls=OVSSwitch)
+        switch2 = self.addSwitch('s2', cls=OVSSwitch)
+        self.addLink(switch,switch2)
 
         plc1 = self.addHost(
             'plc1',
             ip=IP['plc1'] + NETMASK,
             mac=MAC['plc1'])
-        self.addLink(plc1, switch)
+        self.addLink(plc1, switch2)
 
         plc2 = self.addHost(
             'plc2',
             ip=IP['plc2'] + NETMASK,
             mac=MAC['plc2'])
-        self.addLink(plc2, switch)
+        self.addLink(plc2, switch2)
 
         plc3 = self.addHost(
             'plc3',
