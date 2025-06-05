@@ -142,12 +142,12 @@ IP = {
 NETMASK = '/24'
 
 MAC = {
-    'plc1': '00:1D:9C:C7:B0:70',
-    'plc2': '00:1D:9C:C8:BC:46',
-    'plc3': '00:1D:9C:C8:BD:F2',
-    'plc4': '00:1D:9C:C7:FA:2C',
-    'plc5': '00:1D:9C:C8:BC:2F',
-    'plc6': '00:1D:9C:C7:FA:2D',
+    'plc1': '00:1D:9C:C7:B0:10',
+    'plc2': '00:1D:9C:C8:BC:20',
+    'plc3': '00:1D:9C:C8:BD:30',
+    'plc4': '00:1D:9C:C7:FA:40',
+    'plc5': '00:1D:9C:C8:BC:50',
+    'plc6': '00:1D:9C:C7:FA:60',
     'hmi': '00:1D:9C:C8:BC:70',
     'attacker': 'AA:AA:AA:AA:AA:AA',
 }
