@@ -30,7 +30,7 @@ MV201_2 = ('MV201', 2)
 # TODO: real value tag where to read/write flow sensor
 class SwatPLC1(PLC):
 
-    def pre_loop(self, sleep=0.1):
+    def pre_loop(self, sleep=0.2):
         print('DEBUG: swat plc1 enters pre_loop')
 
         time.sleep(sleep)

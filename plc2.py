@@ -20,7 +20,7 @@ LIT301 = ('LIT301', 3)
 
 class SwatPLC2(PLC):
 
-    def pre_loop(self, sleep=0.1):
+    def pre_loop(self, sleep=0.2):
         print('DEBUG: swat plc2 enters pre_loop')
 
         time.sleep(sleep)

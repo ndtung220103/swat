@@ -22,7 +22,7 @@ P501 = ('P501', 5)
 # TODO: real value tag where to read/write flow sensor
 class SwatPLC6(PLC):
 
-    def pre_loop(self, sleep=0.3):
+    def pre_loop(self, sleep=0.2):
         print('DEBUG: swat plc6 enters pre_loop')
 
         time.sleep(sleep)
