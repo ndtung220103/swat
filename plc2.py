@@ -36,18 +36,17 @@ class SwatPLC2(PLC):
 
         count = 0
         while True:
-
-            fit201 = float(self.get(FIT201_2))
-            print("DEBUG PLC2 - get fit201: %f" % fit201)
-            self.send(FIT201_2, fit201, PLC2_ADDR)
-            
-            mv201 = int(self.receive(MV201, PLC2_ADDR))
-            self.set(MV201, mv201)
-
+            try:
+                fit201 = float(self.get(FIT201_2))
+                print("DEBUG PLC2 - get fit201: %f" % fit201)
+                self.send(FIT201_2, fit201, PLC2_ADDR)
+                
+                mv201 = int(self.receive(MV201, PLC2_ADDR))
+                self.set(MV201, mv201)
+            except Exception as e:
+                print(f"Failed to receive data from PLC: {e}")
             time.sleep(PLC_PERIOD_SEC)
             count += 1
-
-        print('DEBUG swat plc2 shutdown')
 
 
 if __name__ == "__main__":

@@ -34,16 +34,15 @@ class SwatPLC5(PLC):
         print('DEBUG: swat plc5 enters main_loop.')
 
         count = 0
-        while True:           
-            p501 = int(self.receive(P501, PLC5_ADDR))
-            self.set(P501, p501)
-            print('DEBUG plc5 p501',p501)
-            
+        while True: 
+            try:          
+                p501 = int(self.receive(P501, PLC5_ADDR))
+                self.set(P501, p501)
+                print('DEBUG plc5 p501',p501)
+            except Exception as e:
+                print(f"Failed to receive data from PLC: {e}")
             time.sleep(PLC_PERIOD_SEC)
             count += 1
-
-        print('DEBUG swat plc5 shutdown')
-
 
 if __name__ == "__main__":
 

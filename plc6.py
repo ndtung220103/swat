@@ -32,23 +32,21 @@ class SwatPLC6(PLC):
         print('DEBUG: swat plc6 enters main_loop.')
 
         while True:
+            try:
+                lit501 = float(self.get(LIT501))
+                print('DEBUG plc6 lit501: %.5f' % lit501)
+                self.send(LIT501, lit501, PLC6_ADDR)
 
-            lit501 = float(self.get(LIT501))
-            print('DEBUG plc6 lit501: %.5f' % lit501)
-            self.send(LIT501, lit501, PLC6_ADDR)
-
-            lit502 = float(self.get(LIT502))
-            print('DEBUG plc6 lit502: %.5f' % lit502)
-            self.send(LIT502, lit502, PLC6_ADDR)
-            
-            p602 = int(self.receive(P602, PLC6_ADDR))
-            self.set(P602, p602)
-
+                lit502 = float(self.get(LIT502))
+                print('DEBUG plc6 lit502: %.5f' % lit502)
+                self.send(LIT502, lit502, PLC6_ADDR)
+                
+                p602 = int(self.receive(P602, PLC6_ADDR))
+                self.set(P602, p602)
+            except Exception as e:
+                print(f"Failed to receive data from PLC: {e}")
             time.sleep(PLC_PERIOD_SEC)
             
-
-        print('DEBUG swat plc6 shutdown')
-
 
 if __name__ == "__main__":
 
