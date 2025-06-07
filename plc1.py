@@ -46,62 +46,17 @@ class SwatPLC1(PLC):
         print('DEBUG: swat plc1 enters main_loop.')
 
         count = 0
-        while(count <= PLC_SAMPLES):
-
+        while True:
             # lit101 [meters]
             lit101 = float(self.get(LIT101))
             print('DEBUG plc1 lit101: %.5f' % lit101)
             self.send(LIT101, lit101, PLC1_ADDR)
 
-            if lit101 >= LIT_101_M['HH']:
-                print("WARNING PLC1 - lit101 over HH: %.2f >= %.2f." % (
-                    lit101, LIT_101_M['HH']))
+            mv101 = int(self.receive(MV101, PLC1_ADDR))
+            self.set(MV101, mv101)
 
-            if lit101 >= LIT_101_M['H']:
-                # CLOSE mv101
-                print("INFO PLC1 - lit101 over H -> close mv101.")
-                self.set(MV101, 0)
-                self.send(MV101, 0, PLC1_ADDR)
-                
-
-            elif lit101 <= LIT_101_M['LL']:
-                print("WARNING PLC1 - lit101 under LL: %.2f <= %.2f." % (
-                    lit101, LIT_101_M['LL']))
-
-                # CLOSE p101
-                print("INFO PLC1 - close p101.")
-                self.set(P101, 0)
-                self.send(P101, 0, PLC1_ADDR)
-
-            elif lit101 <= LIT_101_M['L']:
-                # OPEN mv101
-                print("INFO PLC1 - lit101 under L -> open mv101.")
-                self.set(MV101, 1)
-                self.send(MV101, 1, PLC1_ADDR)
-
-            # read from PLC2 (constant value)
-            fit201 = float(self.receive(FIT201_2, PLC2_ADDR))
-            print("DEBUG PLC1 - receive fit201: %f" % fit201)
-            self.send(FIT201_1, fit201, PLC1_ADDR)
-
-            # # read from PLC3
-            lit301 = float(self.receive(LIT301_3, PLC3_ADDR))
-            print("DEBUG PLC1 - receive lit301: %f" % lit301)
-            self.send(LIT301_1, lit301, PLC1_ADDR)
-
-            mv201 = int(self.receive(MV201_2, PLC2_ADDR))
-            if  lit301 >= LIT_301_M['H'] or mv201 == 0:
-                # CLOSE p101
-                self.set(P101, 0)
-                self.send(P101, 0, PLC1_ADDR)
-                print("INFO PLC1 - fit201 under FIT_201_THRESH " \
-                      "or over LIT_301_M['H']: -> close p101.")
-
-            elif lit301 <= LIT_301_M['L'] and mv201 == 1 and lit101 >= LIT_101_M['LL']:
-                # OPEN p101
-                self.set(P101, 1)
-                self.send(P101, 1, PLC1_ADDR)
-                print("INFO PLC1 - lit301 under LIT_301_M['L'] -> open p101.")
+            p101 = int(self.receive(P101, PLC1_ADDR))
+            self.set(P101, p101)
 
             time.sleep(PLC_PERIOD_SEC)
             count += 1

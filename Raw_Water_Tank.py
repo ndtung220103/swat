@@ -54,7 +54,7 @@ class RawWaterTank(Tank):
         #columns = ['Time', 'MV101', 'P101', 'LIT101', 'LIT301', 'FIT101', 'FIT201']
        # df = pd.DataFrame(columns=columns)
         timestamp=0
-        while(count <= PP_SAMPLES):
+        while True:
 
             new_level = self.level
 

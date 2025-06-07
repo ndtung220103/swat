@@ -35,54 +35,15 @@ class SwatPLC3(PLC):
         print('DEBUG: swat plc3 enters main_loop.')
 
         count = 0
-        while(count <= PLC_SAMPLES):
+        while True:
 
             lit301 = float(self.get(LIT301_3))
             print("DEBUG PLC3 - get lit301: %f" % lit301)
-
             self.send(LIT301_3, lit301, PLC3_ADDR)
 
-            if lit301 >= LIT_301_M['HH']:
-                print("WARNING PLC1 - lit301 over HH: %.2f >= %.2f." % (
-                    lit301, LIT_301_M['HH']))
-
-            if lit301 >= LIT_301_M['H']:
-                print("INFO PLC1 - lit301 over H ")
-                
-
-            elif lit301 <= LIT_301_M['LL']:
-                print("WARNING PLC1 - lit301 under LL: %.2f <= %.2f." % (
-                    lit301, LIT_301_M['LL']))
-
-                # CLOSE p101
-                print("INFO PLC3 - close p301.")
-                self.set(P301, 0)
-                self.send(P301, 0, PLC3_ADDR)
-
-            elif lit301 <= LIT_301_M['L']:
-                print("INFO PLC1 - lit301 under L ")
-                
-
-            # # read from PLC4
-            lit401 = float(self.receive(LIT401, PLC4_ADDR))
-            print("DEBUG PLC3 - receive lit401: %f" % lit401)
-
-            if  lit401 >= LIT_401_M['H'] :
-                # CLOSE p101
-                self.set(P301, 0)
-                self.send(P301, 0, PLC3_ADDR)
-                print("INFO PLC4" \
-                      "or over LIT_401_M['H']: -> close p301.")
-
-            elif lit401 <= LIT_401_M['L'] and lit301 >= LIT_301_M['LL']:
-                # OPEN p301
-                self.set(P301, 1)
-                self.send(P301, 1, PLC3_ADDR)
-                print("INFO PLC4 - lit401 under LIT_301_M['L'] -> open p101.")
-
-
-
-
+            p301 = int(self.receive(P301, PLC3_ADDR))
+            self.set(P301, p301)
+            
             time.sleep(PLC_PERIOD_SEC)
             count += 1
 

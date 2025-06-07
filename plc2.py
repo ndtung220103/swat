@@ -35,28 +35,14 @@ class SwatPLC2(PLC):
         print('DEBUG: swat plc2 enters main_loop.')
 
         count = 0
-        while(count <= PLC_SAMPLES):
+        while True:
 
             fit201 = float(self.get(FIT201_2))
             print("DEBUG PLC2 - get fit201: %f" % fit201)
-
             self.send(FIT201_2, fit201, PLC2_ADDR)
             
-            lit301 = float(self.receive(LIT301, PLC3_ADDR))
-            if lit301 >= LIT_301_M['HH']:
-                print("WARNING PLC3 - lit301 over HH: %.2f >= %.2f." % (
-                    lit301, LIT_301_M['HH']))
-
-            if lit301 >= LIT_301_M['H']:
-                print("INFO PLC3 - lit301 over H -> close mv201.")
-                self.set(MV201, 0)
-                self.send(MV201, 0, PLC2_ADDR)
-
-            elif lit301 <= LIT_301_M['L']:
-                # OPEN mv101
-                print("INFO PLC3 - lit301 under L -> open mv201.")
-                self.set(MV201, 1)
-                self.send(MV201, 1, PLC2_ADDR)
+            mv201 = int(self.receive(MV201, PLC2_ADDR))
+            self.set(MV201, mv201)
 
             time.sleep(PLC_PERIOD_SEC)
             count += 1

@@ -34,16 +34,11 @@ class SwatPLC5(PLC):
         print('DEBUG: swat plc5 enters main_loop.')
 
         count = 0
-        while(count <= PLC_SAMPLES):
-
+        while True:           
+            p501 = int(self.receive(P501, PLC5_ADDR))
+            self.set(P501, p501)
+            print('DEBUG plc5 p501',p501)
             
-            p401 = int(self.receive(P401, PLC4_ADDR))
-            self.set(P501, p401)
-            self.send(P501, p401, PLC5_ADDR)
-            print('DEBUG plc5 p501',p401)
-            
-            
-
             time.sleep(PLC_PERIOD_SEC)
             count += 1
 

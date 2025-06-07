@@ -37,37 +37,14 @@ class SwatPLC4(PLC):
         print('DEBUG: swat PLC4 enters main_loop.')
 
         count = 0
-        while(count <= PLC_SAMPLES):
+        while True:
 
             lit401 = float(self.get(LIT401))
             print('DEBUG plc4 lit401 %.5f' % lit401)
             self.send(LIT401, lit401, PLC4_ADDR)
 
-            if lit401 >= LIT_401_M['HH']:
-                print("WARNING PLC4 - lit401 over HH: %.2f >= %.2f." % (
-                    lit401, LIT_401_M['HH']))
-
-            if lit401 >= LIT_401_M['H']:
-                print("INFO PLC4 - lit401 over H ")
-
-            elif lit401 <= LIT_401_M['LL']:
-                print("WARNING PLC4 - lit401 under LL: %.2f <= %.2f." % (
-                    lit401, LIT_401_M['LL']))
-
-                # CLOSE p101
-                print("INFO PLC4 - close p401.")
-                self.set(P401, 0)
-                self.send(P401, 0, PLC4_ADDR)
-
-            elif lit401 <= LIT_401_M['L']:
-                print("INFO PLC4 - lit401 under L ")
-
-            if lit401 >= LIT_401_M['L']:
-                print("INFO PLC4 - open p401.")
-                self.set(P401, 1)
-                self.send(P401, 1, PLC4_ADDR)
-
-
+            p401 = int(self.receive(P401, PLC4_ADDR))
+            self.set(P401, p401)
             time.sleep(PLC_PERIOD_SEC)
             count += 1
 

@@ -45,7 +45,7 @@ class ROFEEDTank(Tank):
 
         count = 0
         timestamp=0
-        while(count <= PP_SAMPLES):
+        while True:
 
             new_level = self.level
 
