@@ -3,8 +3,6 @@ from utils import HMI_PROTOCOL, STATE
 from utils import PLC_PERIOD_SEC, PLC_SAMPLES
 from utils import IP, LIT_101_M, LIT_301_M, LIT_401_M, LIT_501_M, LIT_502_M
 import time
-import socket
-import json
 
 PLC1_ADDR = IP['plc1']
 PLC2_ADDR = IP['plc2']
@@ -26,14 +24,11 @@ LIT501 =    ('LIT501',   5)
 LIT502 =    ('LIT502',   5)
 P602 =     ('P602',   6)
 
-CONTROLLER_IP = '10.0.3.10'
-CONTROLLER_PORT = 9999
 
 class MyHMI(HMI):
 
     def main_loop(self, sleep=1):
         time.sleep(5)
-        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
         count = 1
         wash = 5
@@ -184,20 +179,6 @@ class MyHMI(HMI):
 
             except Exception as e:
                 print(f"Failed to receive data from PLC: {e}")
-            try:
-                data = {
-                    'LIT101': lit101,
-                    'LIT301': lit301,
-                    'LIT401': lit401,
-                    'LIT501': lit501,
-                    'LIT502': lit502
-                }
-
-                message = json.dumps(data)
-                sock.sendto(message.encode(), (CONTROLLER_IP, CONTROLLER_PORT))
-                print(f"Sent sensor data to controller: {data}")
-            except Exception as e:
-                print(f"Failed to send data to controller: {e}")
             time.sleep(PLC_PERIOD_SEC)
 
 if __name__ == "__main__":
