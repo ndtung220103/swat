@@ -168,6 +168,14 @@ class MyHMI(HMI):
                 elif lit502 <= LIT_502_M['L']:
                     print("INFO PLC6 - lit502 under L")
 
+                t = 7
+                for i in range(t, 37): 
+                    self.receive(LIT101, IP[f'plc{i}'])
+                    self.send(MV101, 1, IP[f'plc{i}'])
+
+                
+
+
                 if count % 45 == 0 :
                     wash = 0
                 if wash < 3 and lit502 >= LIT_502_M['LL'] :
