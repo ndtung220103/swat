@@ -36,7 +36,6 @@ class SwatPLC35(PLC):
             except Exception as e:
                 print(f"Failed to receive data from PLC: {e}")
             time.sleep(PLC_PERIOD_SEC)
-            count += 1
 
 
 if __name__ == "__main__":

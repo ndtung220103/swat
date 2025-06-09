@@ -252,7 +252,7 @@ HMI_PROTOCOL = {
 
 PLC_TAGS = (
     ('LIT101', 1, 'REAL'),
-    ('MV101', 1, 'INT'),
+    ('MV101', 1, 'INT')
 )
 
 PLC1_ADDR = IP['plc1']
@@ -264,7 +264,7 @@ PLC1_TAGS = (
     # interlocks does NOT go to the statedb
     ('FIT201', 1, 'REAL'),
     ('MV201', 1, 'INT'),
-    ('LIT301', 1, 'REAL'),
+    ('LIT301', 1, 'REAL')
 )
 PLC1_SERVER = {
     'address': PLC1_ADDR,
