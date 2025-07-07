@@ -60,5 +60,5 @@ for i in range(min(n, len(table))):
     A1 = ARP(op = 2, hwsrc = 'AA:AA:AA:AA:AA:AA', psrc = '192.168.1.70', hwdst = t["mac"], pdst = t["ip"])  
         
     pkt1 = E1/A1 
-    print(f"send a packet to plc"+i)
+    print(f"send a packet to plc{i+1}")
     sendp(pkt1)
